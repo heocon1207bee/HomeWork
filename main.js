@@ -39,7 +39,7 @@ function render() {
         let listChild = `
             <h4>${data.carName}</h4>
             <p>make: ${data.make}</p>
-            <p>speed: ${data.speed}</p>
+            <p>speed: ${data.speed}km/h</p>
         `
         list.innerHTML = listChild
 
