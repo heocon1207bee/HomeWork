@@ -54,7 +54,7 @@
 }
 
 ._image > img {
-    border-radius: 50%;
+    border-radius: 10px;
     width: 100%;
     height: auto;
 }

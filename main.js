@@ -4,14 +4,15 @@ const url = 'https://api.github.com/users/'
 let mainData = {}
 
 const fetchData = async (url) => {
-    const response = await fetch(url)
+    const response = await fetch(url).catch(error => {
+        console.log(error); alert('An error occurred!!! Please check your network connection.')
+    })
     mainData = await response.json()
 }
 
 //------------------------------------------------- HTML Render ------------------------------------------------------
 
 let main = document.getElementById('main')
-
 
 const mainFormHTML = `
     <div id='header'>
@@ -48,10 +49,11 @@ const usersRender = () => {
     usersInfo.innerHTML = userInfoHTML
 }
 
+//---------------------------------------------- Set Event Listener -----------------------------------------------
+
 mainForm.addEventListener('submit', async (e) => {
     e.preventDefault()
     await fetchData(url + usernameInput.value)
-    console.log(mainData)
     usersRender()
 })
 
