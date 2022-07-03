@@ -1,69 +1,57 @@
-// ---------------------------------------------- Bai tap ------------------------------------------------------
+// ---------------------------------------------- Data Processing ------------------------------------------------------
 
-function Car(carName, make, speed) {
-    this.carName = carName
-    this.make = make
-    this.speed = speed
+const url = 'https://api.github.com/users/'
+let mainData = {}
+
+const fetchData = async (url) => {
+    const response = await fetch(url)
+    mainData = await response.json()
 }
 
-Car.prototype.accelerate = function() {
-    this.speed += 10
-    console.log(`accelerate! ${this.carName} speed: `, this.speed)
-}
-
-Car.prototype.break = function() {
-    this.speed -= 5
-    console.log(`break! ${this.carName} speed: `,this.speed)
-}
-
-let Mercedes = new Car('Mecedes','14/02/2022', 220)
-let BMW = new Car('BMW' ,'12/01/2021', 330)
-
-//------------------------------------------------- Render ------------------------------------------------------
-const carList = new Array()
-carList.push(Mercedes, BMW)
+//------------------------------------------------- HTML Render ------------------------------------------------------
 
 let main = document.getElementById('main')
 
-let homeworkName = document.createElement('h1')
-homeworkName.innerText = 'Bai tap 1'
-main.appendChild(homeworkName)
 
-let listCar = document.createElement('ul')
+const mainFormHTML = `
+    <div id='header'>
+        <h2>GITHUB USERS INFORMATIONS</h2>    
+    </div>
+    <div id='content'>
+        <form id='mainForm'>
+            <input id='usernameInput' value='' placeholder='input username'/>
+            <button type='submit'>SEARCH</button>
+        </form>
+        <div id='usersInfo'></div>
+    </div>
+`
+main.innerHTML = mainFormHTML
 
-function render() {
-    carList.map((data, index) => {
-        let list = document.createElement('li')
-        list.id = 'car' + index
-        list.key = list.id
-        let listChild = `
-            <h4>${data.carName}</h4>
-            <p>make: ${data.make}</p>
-            <p>speed: ${data.speed}</p>
-        `
-        list.innerHTML = listChild
+let mainForm = document.getElementById('mainForm')
+let usernameInput = document.getElementById('usernameInput')
+let usersInfo = document.getElementById('usersInfo')
 
-        let accelerate = document.createElement('button')
-        accelerate.innerText = 'accelerate'
-        accelerate.addEventListener('click', () => {
-            data.accelerate()
-            listCar.innerHTML = ''
-            render()
-        })
-        list.appendChild(accelerate)
-
-        let breaking = document.createElement('button')
-        breaking.innerText = 'break'
-        breaking.addEventListener('click', () => {
-            data.break()
-            listCar.innerHTML = ''
-            render()
-        })
-        list.appendChild(breaking)
-
-        listCar.appendChild(list)
-    })
-    main.appendChild(listCar)
+const usersRender = () => {
+    const userInfoHTML = mainData.message === 'Not Found' ? `<p>Can not find this user!!!</p>` : `
+        <div class='_image'>
+            <img src=${mainData.avatar_url} alt='avatar image'/>
+        </div>
+        <div class='_info'>
+            <h3>${mainData.login}</h3>
+            <p>Name: ${mainData.name ? mainData.name : 'no name information'}</p>
+            <p>Email: ${mainData.email ? mainData.email : 'no email information'}</p>
+            <p>Company: ${mainData.company ? mainData.company : 'no company information'}</p>
+            <p>${mainData.followers} folower${mainData.followers === 1 ? '' : 's'}</p>
+        </div>
+        
+    `
+    usersInfo.innerHTML = userInfoHTML
 }
 
-render()
+mainForm.addEventListener('submit', async (e) => {
+    e.preventDefault()
+    await fetchData(url + usernameInput.value)
+    console.log(mainData)
+    usersRender()
+})
+
