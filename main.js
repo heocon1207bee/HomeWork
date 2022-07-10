@@ -1,59 +1,55 @@
-// ---------------------------------------------- Data Processing ------------------------------------------------------
+// ============================================== Live Code =======================================================
 
-const url = 'https://api.github.com/users/'
-let mainData = {}
+// const arr = [1, 2, 3, 4, 5, 6, 6, 7, 7, 8, 8, 9, 10]
+// const newArr = []
+// arr.map((a) => {
+//     if (!newArr.includes(a) && a % 2 === 0) {
+//         newArr.push(a)
+//     }
+// })
+// console.log(newArr)
 
-const fetchData = async (url) => {
-    const response = await fetch(url).catch(error => {
-        console.log(error); alert('An error occurred!!! Please check your network connection.')
-    })
-    mainData = await response.json()
-}
 
-//------------------------------------------------- HTML Render ------------------------------------------------------
+// const queryString = require('querystring')
+// const newJson = {
+//     name: 'khanh',
+//     children: [
+//         'diem',
+//         'dung',
+//     ],
+//     age: '22',
+// }
+// const query = queryString.stringify(newJson)
+// console.log(query)
 
-let main = document.getElementById('main')
+// const getBirthday = require('./getBirthday.js').getBirthday()
+// console.log(`${getBirthday.getDate()}/${getBirthday.getMonth() + 1}/${getBirthday.getFullYear()}`)
 
-const mainFormHTML = `
-    <div id='header'>
-        <h2>GITHUB USERS INFORMATIONS</h2>    
-    </div>
-    <div id='content'>
-        <form id='mainForm'>
-            <input id='usernameInput' value='' placeholder='input username'/>
-            <button type='submit'>SEARCH</button>
-        </form>
-        <div id='usersInfo'></div>
-    </div>
-`
-main.innerHTML = mainFormHTML
+// ================================================= Bai 1 =========================================================
 
-let mainForm = document.getElementById('mainForm')
-let usernameInput = document.getElementById('usernameInput')
-let usersInfo = document.getElementById('usersInfo')
+// const newJson = {
+//     name: 'khanh',
+//     age: '22',
+//     work: 'student',
+//     gender: 'men'
+// }
 
-const usersRender = () => {
-    const userInfoHTML = mainData.message === 'Not Found' ? `<p>Can not find this user!!!</p>` : `
-        <div class='_image'>
-            <img src=${mainData.avatar_url} alt='avatar image'/>
-        </div>
-        <div class='_info'>
-            <h3>${mainData.login}</h3>
-            <p>Name: ${mainData.name ? mainData.name : 'no name information'}</p>
-            <p>Email: ${mainData.email ? mainData.email : 'no email information'}</p>
-            <p>Company: ${mainData.company ? mainData.company : 'no company information'}</p>
-            <p>${mainData.followers} folower${mainData.followers === 1 ? '' : 's'}</p>
-        </div>
-        
-    `
-    usersInfo.innerHTML = userInfoHTML
-}
+// for(let i in newJson) {
+//     console.log(`${i}: ${newJson[i]}`)
+// }
 
-//---------------------------------------------- Set Event Listener -----------------------------------------------
+// ================================================= Bai 2 =========================================================
 
-mainForm.addEventListener('submit', async (e) => {
-    e.preventDefault()
-    await fetchData(url + usernameInput.value)
-    usersRender()
+const http = require('http')
+
+const server = http.createServer((req, res) => {
+    if(req.url === '/') {
+        res.end('<b>Day la trang chu</b>')
+    } else if(req.url === '/about') {
+        res.end('<b>Day la thong tin ca nhan cua ban than</b>')
+    } else {
+        res.end('<b>Duong dan nay khong ton tai</b>')
+    }
 })
 
+server.listen(5000)
