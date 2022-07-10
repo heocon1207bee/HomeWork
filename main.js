@@ -1,69 +1,55 @@
-// ---------------------------------------------- Bai tap ------------------------------------------------------
+// ============================================== Live Code =======================================================
 
-function Car(carName, make, speed) {
-    this.carName = carName
-    this.make = make
-    this.speed = speed
-}
+// const arr = [1, 2, 3, 4, 5, 6, 6, 7, 7, 8, 8, 9, 10]
+// const newArr = []
+// arr.map((a) => {
+//     if (!newArr.includes(a) && a % 2 === 0) {
+//         newArr.push(a)
+//     }
+// })
+// console.log(newArr)
 
-Car.prototype.accelerate = function() {
-    this.speed += 10
-    console.log(`accelerate! ${this.carName} speed: `, this.speed)
-}
 
-Car.prototype.break = function() {
-    this.speed -= 5
-    console.log(`break! ${this.carName} speed: `,this.speed)
-}
+// const queryString = require('querystring')
+// const newJson = {
+//     name: 'khanh',
+//     children: [
+//         'diem',
+//         'dung',
+//     ],
+//     age: '22',
+// }
+// const query = queryString.stringify(newJson)
+// console.log(query)
 
-let Mercedes = new Car('Mecedes','14/02/2022', 220)
-let BMW = new Car('BMW' ,'12/01/2021', 330)
+// const getBirthday = require('./getBirthday.js').getBirthday()
+// console.log(`${getBirthday.getDate()}/${getBirthday.getMonth() + 1}/${getBirthday.getFullYear()}`)
 
-//------------------------------------------------- Render ------------------------------------------------------
-const carList = new Array()
-carList.push(Mercedes, BMW)
+// ================================================= Bai 1 =========================================================
 
-let main = document.getElementById('main')
+// const newJson = {
+//     name: 'khanh',
+//     age: '22',
+//     work: 'student',
+//     gender: 'men'
+// }
 
-let homeworkName = document.createElement('h1')
-homeworkName.innerText = 'Bai tap 1'
-main.appendChild(homeworkName)
+// for(let i in newJson) {
+//     console.log(`${i}: ${newJson[i]}`)
+// }
 
-let listCar = document.createElement('ul')
+// ================================================= Bai 2 =========================================================
 
-function render() {
-    carList.map((data, index) => {
-        let list = document.createElement('li')
-        list.id = 'car' + index
-        list.key = list.id
-        let listChild = `
-            <h4>${data.carName}</h4>
-            <p>make: ${data.make}</p>
-            <p>speed: ${data.speed}</p>
-        `
-        list.innerHTML = listChild
+const http = require('http')
 
-        let accelerate = document.createElement('button')
-        accelerate.innerText = 'accelerate'
-        accelerate.addEventListener('click', () => {
-            data.accelerate()
-            listCar.innerHTML = ''
-            render()
-        })
-        list.appendChild(accelerate)
+const server = http.createServer((req, res) => {
+    if(req.url === '/') {
+        res.end('<b>Day la trang chu</b>')
+    } else if(req.url === '/about') {
+        res.end('<b>Day la thong tin ca nhan cua ban than</b>')
+    } else {
+        res.end('<b>Duong dan nay khong ton tai</b>')
+    }
+})
 
-        let breaking = document.createElement('button')
-        breaking.innerText = 'break'
-        breaking.addEventListener('click', () => {
-            data.break()
-            listCar.innerHTML = ''
-            render()
-        })
-        list.appendChild(breaking)
-
-        listCar.appendChild(list)
-    })
-    main.appendChild(listCar)
-}
-
-render()
+server.listen(5000)
