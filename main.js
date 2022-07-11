@@ -27,29 +27,28 @@
 
 // ================================================= Bai 1 =========================================================
 
-// const newJson = {
-//     name: 'khanh',
-//     age: '22',
-//     work: 'student',
-//     gender: 'men'
-// }
+const fs = require('fs')
 
-// for(let i in newJson) {
-//     console.log(`${i}: ${newJson[i]}`)
-// }
+fs.readFile('./info.json', 'utf-8', (err, data) => {
+    if(err) {
+        console.log(err)
+        return
+    } 
+    console.log(JSON.parse(data))
+})
 
 // ================================================= Bai 2 =========================================================
 
-const http = require('http')
+// const http = require('http')
 
-const server = http.createServer((req, res) => {
-    if(req.url === '/') {
-        res.end('<b>Day la trang chu</b>')
-    } else if(req.url === '/about') {
-        res.end('<b>Day la thong tin ca nhan cua ban than</b>')
-    } else {
-        res.end('<b>Duong dan nay khong ton tai</b>')
-    }
-})
+// const server = http.createServer((req, res) => {
+//     if(req.url === '/') {
+//         res.end('<b>Day la trang chu</b>')
+//     } else if(req.url === '/about') {
+//         res.end('<b>Day la thong tin ca nhan cua ban than</b>')
+//     } else {
+//         res.end('<b>Duong dan nay khong ton tai</b>')
+//     }
+// })
 
-server.listen(5000)
+// server.listen(5000)
