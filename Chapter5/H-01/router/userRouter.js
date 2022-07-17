@@ -19,7 +19,9 @@ userRouter.get('/', (req, res) => {
 
 userRouter.post('/', (req, res) => {
     const {error} = validateUser(req.body)
-    if (error) {return res.send(error.details[0].message)}
+    if (error) {
+        return res.send(error.details[0].message)
+    }
     const newUser = {
         id: users.length + 1,
         name: req.body.name,
@@ -34,7 +36,7 @@ userRouter.post('/', (req, res) => {
 
 userRouter.put('/', (req, res) => {
     users.map((data, index) => {
-        if(data.id === req.body.id) {
+        if (data.id === req.body.id) {
             users[index] = {...data, ...req.body}
         }
     })
