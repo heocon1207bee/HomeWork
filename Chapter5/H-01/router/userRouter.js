@@ -20,7 +20,7 @@ userRouter.get('/', (req, res) => {
 userRouter.post('/', (req, res) => {
     const {error} = validateUser(req.body)
     if (error) {
-        return res.send(error.details[0].message)
+        return res.status(400).send(error.details[0].message)
     }
     const newUser = {
         id: users.length + 1,
@@ -44,7 +44,7 @@ userRouter.put('/', (req, res) => {
 })
 
 userRouter.delete('/', (req, res) => {
-    const newUser = users.filter(data => data.id != req.body.id)
+    const newUser = users.filter(data => data.id !== req.body.id)
     users.splice(0, users.length)
     users.push(...newUser)
     users.map((data, index) => {
@@ -56,7 +56,7 @@ userRouter.delete('/', (req, res) => {
 const validateUser = (users) => {
     const schema = Joi.object({
         name: Joi.string().min(15).regex(/^[a-zA-Z ]+$/).required(),
-        phoneNumber: Joi.string().regex(/^[0-9]{10,12}$/).required(),
+        phoneNumber: Joi.string().regex(/^\d{10,12}$/).required(),
         email: Joi.string().email().required(),
         gender: Joi.string().regex(/^(male|female|unknown)$/).required(),
         age: Joi.number().integer().min(1).max(200)
