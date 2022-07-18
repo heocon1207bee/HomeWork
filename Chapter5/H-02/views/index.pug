@@ -2,45 +2,97 @@ html
 head
     title #{title}
     meta(http-equiv="Content-Type", content="text/html;charset=UTF-8")
-    link(href="./styles/form.css", rel="stylesheet")
+    style.
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(180deg, rgb(90, 45, 103), rgb(249, 0, 102));
+            border-radius: 10px;
+        }
+
+        .userForm {
+            width: 700px;
+            height: fit-content;
+            background-color: #ffffff;
+            padding: 2.5em;
+            border-radius: 10px;
+        }
+
+        .formDaddy {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10%;
+        }
+
+        .formChild {
+            padding-top: 20px;
+            flex: 45%;
+        }
+
+        .formChild > input, .formChild > select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid darkgray;
+            border-radius: 10px;
+        }
+
+        #submitBtn {
+            margin-top: 50px;
+            padding: 10px 50px;
+            background-color: rgb(11, 96, 254);
+            border: none;
+            border-radius: 10px;
+            color: white;
+        }
+
 body
     div.container
         form.userForm(action="/user-info", method="post" enctype="application/x-www-form-urlencoded")
-            h3.formTitle Registration Form
+            h2.formTitle Registration Form
             .formDaddy
                 .formChild
                     label First Name:
-                    input(id='firstName', name='ftName', type='text', placeholder='Jonny')
+                    br
+                    input(id='firstName', name='ftName', type='text', placeholder='Jonny', pattern='^[a-zA-Z ]+$', title='Do not enter numbers and special characters', required)
                 .formChild
                     label Last Name:
-                    input(id='lastName', name='ltName', type='text', placeholder='Deep')
+                    br
+                    input(id='lastName', name='ltName', type='text', placeholder='Deep', pattern='^[a-zA-Z ]+$', title='Do not enter numbers and special characters', required)
                 .formChild
                     label Birthday:
-                    input(id='birthday', name='birthDay', type='number', step='1')
+                    br
+                    input(id='birthday', name='birthDay', type='number', step='1', required)
                 .formChild
                     label Gender:
                     div
                         span
-                            input(id='male', type='radio', name='gender', value='Male')
+                            input(id='male', type='radio', name='gender', value='Male' required)
                             label(for='male') Male
                         span
-                            input(id='female', type='radio', name='gender', value='Female')
+                            input(id='female', type='radio', name='gender', value='Female' required)
                             label(for='female') Female
                 .formChild
                     label Email:
-                    input(type='email', name='email', placeholder='abc@example.com')
+                    br
+                    input(type='email', name='email', placeholder='abc@example.com', required)
                 .formChild
                     label Phone Number:
-                    input(type='text', name='phoneNumber', placeholder='+8499999999')
+                    br
+                    input(id='phonenumber' type='text', name='phoneNumber', placeholder='+8499999999', pattern='^(\\+[0-9]{10,12})', title='Correct phone number format: `+(area_code)phone_number`', required)
                 .formChild
                     label Subject:
+                    br
                     select(name='subject')
                         option(value='One') One
                         option(value='Punch') Punch
                         option(value='Man') Man
-            button(type='submit') SUBMIT
+            button(id='submitBtn' type='submit') SUBMIT
     script.
         let thisYear = new Date().getFullYear()
         const birthday = document.getElementById('birthday')
         birthday.value = thisYear
-        birthday.max= thisYear
+        birthday.max = thisYear
+        birthday.min = "1900"

@@ -19,7 +19,7 @@ const validateUser = function (obj) {
         birthDay: Joi.number().integer().required(),
         gender: Joi.string().required(),
         email: Joi.string().email().required(),
-        phoneNumber: Joi.string().regex(/(\+84)([0-9]{9,12})/).required(),
+        phoneNumber: Joi.string().regex(/^(\+[0-9]{10,12})/).required(),
         subject: Joi.any()
     })
     return schema.validate(obj)
