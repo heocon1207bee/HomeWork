@@ -4,8 +4,7 @@ const userModel = require('../models/users.model')
 
 // Get all user in db
 router.get('/', function (req, res) {
-    const name = req.query.name
-    userModel.find({ name: name }, function (err, users) {
+    userModel.find({}, function (err, users) {
         if (err) {
             res.send('An error occurred')
         } else {
